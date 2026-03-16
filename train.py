@@ -18,7 +18,7 @@ from models import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', default='gunet_t', type=str, help='model name')
-parser.add_argument('--num_workers', default=16, type=int, help='number of workers')
+parser.add_argument('--num_workers', default=4, type=int, help='number of workers')
 parser.add_argument('--use_mp', action='store_true', default=False, help='use Mixed Precision')
 parser.add_argument('--use_ddp', action='store_true', default=False, help='use Distributed Data Parallel')
 parser.add_argument('--save_dir', default='./saved_models/', type=str, help='path to models saving')
@@ -121,10 +121,7 @@ def main():
 			if local_rank == 0: print('==> Using SyncBN because of too small norm-batch-size.')
 			nn.SyncBatchNorm.convert_sync_batchnorm(network)
 	else:
-		network = DataParallel(network)
-		if m_setup['batch_size'] // torch.cuda.device_count() < 16:
-			print('==> Using SyncBN because of too small norm-batch-size.')
-			convert_model(network)
+		network = network.cuda()
 
 	# define loss function
 	criterion = nn.L1Loss()
