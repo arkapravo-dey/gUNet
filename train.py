@@ -97,7 +97,7 @@ def valid(val_loader, network):
 
 		with torch.no_grad():
 			H, W = source_img.shape[2:]
-			source_img = pad_img(source_img, network.module.patch_size if hasattr(network.module, 'patch_size') else 16)
+			source_img = pad_img(source_img, network.module.patch_size if hasattr(network, 'patch_size') else 16)
 			output = network(source_img).clamp_(-1, 1)
 			output = output[:, :, :H, :W]
 
