@@ -8,9 +8,9 @@
     "data_augment": true,
     "cache_memory": false,
     "num_iter": 4096,
-    "epochs": 500,
-    "warmup_epochs": 30,
-    "const_epochs": 50,
-    "frozen_epochs": 30,
+    "epochs": 200,
+    "warmup_epochs": 12,
+    "const_epochs": 20,
+    "frozen_epochs": 12,
     "eval_freq": 10
 }
